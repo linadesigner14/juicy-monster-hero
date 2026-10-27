@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Juicy Monster Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+<style>
+/* Layout: the Figma frame (1920×1080) rebuilt 1:1 as a scaled stage; a portrait stage (1080×1920) for phones. */
+:root{
+  --ink:#05070d;          /* night table */
+  --white:#ffffff;
+  --blue:#0063FA;         /* brand blue */
+  --blue-top:#015FEF;     /* CTA gradient */
+  --blue-bot:#013D99;
+  --cheddar:#FFAF00;      /* tag yellow */
+  --black:#000000;
+  --chalk:#efeeea;        /* MONSTER lettering */
+  --line:rgba(255,255,255,.5);
+  --font:"Inter","SF Pro Display",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ink);color:var(--white);font-family:var(--font);overflow:hidden}
+[hidden]{display:none!important}
+#bg{position:fixed;left:0;top:0;background:var(--ink) url(img/bg.webp) center/100% 100% no-repeat;pointer-events:none}
+#stage{position:absolute;left:0;top:0;transform-origin:0 0}
+.abs{position:absolute}
+img{max-width:none;display:block;user-select:none;-webkit-user-drag:none}
+
+/* ---------- MONSTER EYES (slowly appear in the background, flash at the end) ---------- */
+#eyes{position:absolute;left:22px;top:184px;width:1882px;height:710px;z-index:1;pointer-events:none;opacity:0}
+#eyes img{position:absolute;inset:0;width:100%;height:100%}
+#eyesBoost{mix-blend-mode:screen;opacity:0}
+#oMouth{opacity:0}
+.flare{position:absolute;width:420px;height:420px;margin:-210px 0 0 -210px;border-radius:50%;opacity:0;mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(0,0,0,0) 0 9%,rgba(120,210,255,.9) 16%,rgba(40,120,255,.55) 32%,rgba(0,80,255,.18) 52%,rgba(0,60,255,0) 70%)}
+
+/* ---------- NAV (exact frame coords) ---------- */
+.navlink{position:absolute;top:50px;height:24px;line-height:24px;font-size:20px;font-weight:400;color:var(--white);
+  text-decoration:none;text-transform:uppercase;white-space:nowrap;letter-spacing:-.02em;transition:color .2s;z-index:40}
+.navlink:hover,.navlink[aria-current="page"]{color:var(--blue)}
+.sep{position:absolute;top:50px;width:2px;height:23px;background:var(--line)}
+.pill{position:absolute;left:1515px;top:50px;width:271px;height:55px;border:1px solid var(--white);border-radius:28px;z-index:40;
+  box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--white);letter-spacing:-.02em;
+  text-decoration:none;text-transform:uppercase;transition:background .2s,color .2s}
+.pill:hover{background:var(--white);color:var(--black)}
+.ham{position:absolute;left:1815px;top:50px;width:55px;height:55px;border:1px solid var(--white);border-radius:50%;z-index:40;
+  background:transparent;box-sizing:border-box;cursor:pointer;padding:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:6.5px;transition:background .2s}
+.ham span{display:block;width:26px;height:2px;background:var(--white);transition:background .2s}
+.ham:hover{background:var(--white)} .ham:hover span{background:var(--black)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-offset:3px}
+
+/* ---------- TAGS (tilted, as in the frame) + CTA ---------- */
+.tags{position:absolute;left:0;top:0;z-index:30}
+.tag{position:absolute;box-sizing:border-box;padding:0 10px;font-size:21px;line-height:24px;display:flex;align-items:center;
+  text-transform:uppercase;letter-spacing:-.065em;white-space:nowrap}
+.t1{left:69px;top:519.4px;width:270.6px;height:45.7px;transform:rotate(3.63deg);background:var(--blue);color:var(--white)}
+.t2{left:69px;top:565.4px;width:172.6px;height:44.9px;transform:rotate(-3.09deg);background:var(--white);color:var(--blue)}
+.t3{left:108px;top:609.3px;width:251.5px;height:45.7px;transform:rotate(2.86deg);background:var(--cheddar);color:var(--blue)}
+.t4{left:69px;top:655.4px;width:386.5px;height:70.9px;transform:rotate(-1.65deg);background:var(--black);color:var(--white);display:block;padding-top:11px}
+.cta{position:absolute;left:68px;top:838px;width:403px;height:77px;border-radius:6px;background:linear-gradient(180deg,var(--blue-top),var(--blue-bot));
+  color:var(--white);display:flex;align-items:center;justify-content:center;font-size:34px;text-transform:uppercase;text-decoration:none;
+  letter-spacing:-.045em;transition:filter .2s,transform .2s;z-index:40;box-shadow:0 10px 30px rgba(0,60,180,.35)}
+.cta:hover{filter:brightness(1.15);transform:translateY(-2px)}
+.replay{position:absolute;left:68px;top:950px;height:44px;padding:0 18px 0 14px;border-radius:22px;border:1px solid var(--line);
+  background:rgba(0,0,0,.35);color:var(--white);font:500 14px/1 var(--font);letter-spacing:.06em;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .2s,background .2s;z-index:40}
+.replay:hover{border-color:var(--white);background:rgba(0,99,250,.35)}
+.replay svg{width:18px;height:18px}
+
+/* ---------- LOGOS ---------- */
+#juicy{left:292px;top:74px;width:1335px;z-index:2}
+#word{left:580px;top:796px;width:760px;height:260px;z-index:20;pointer-events:none}
+#word img{position:absolute}
+#word .base{left:0;top:0;width:760px}
+#oWrap{position:absolute;left:150px;top:50px;width:140px;height:176px;transform-origin:50% 55%;will-change:transform}
+#oWrap img{position:absolute;left:0;top:0;width:140px;height:176px}
+#shout{position:absolute;left:70px;top:-42px;width:300px;height:300px;overflow:visible}
+#shout line{stroke:var(--chalk);stroke-width:11;stroke-linecap:round;opacity:0}
+
+/* ---------- BURGER ---------- */
+#scene{left:0;top:0;width:804px;height:616px;transform-origin:0 0;z-index:10}
+#burger{position:absolute;left:-250px;top:-700px;width:1304px;height:1400px}
+.layer{position:absolute;will-change:transform}
+#hit{position:absolute;left:70px;top:80px;width:670px;height:530px;border-radius:40%;cursor:pointer;background:transparent;border:0;z-index:5}
+
+/* ---------- MENU PANEL ---------- */
+#panel{position:fixed;inset:0;z-index:100;background:rgba(3,6,16,.92);backdrop-filter:blur(6px);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#panel a{font:400 clamp(28px,5vw,56px)/1.1 var(--font);color:var(--white);text-decoration:none;text-transform:uppercase}
+#panel a:hover{color:var(--blue)}
+#panel .close{position:absolute;top:calc(20px + env(safe-area-inset-top,0px));right:max(20px,env(safe-area-inset-right,0px));width:52px;height:52px;border-radius:50%;
+  border:1px solid var(--white);background:transparent;color:var(--white);font-size:26px;cursor:pointer}
+
+.intro{opacity:0}
+
+/* ---------- PORTRAIT STAGE (1080×1920) ---------- */
+.port .navlink,.port .sep{display:none}
+.port .pill{left:420px;top:70px;width:470px;height:100px;border-radius:50px;font-size:34px}
+.port .ham{left:920px;top:70px;width:100px;height:100px;gap:11px}
+.port .ham span{width:44px;height:3px}
+.port #juicy{left:-10px;top:210px;width:1100px}
+.port #word{left:80px;top:1000px;transform:scale(1.21);transform-origin:0 0}
+.port .tags{transform:translate(-8px,766px) scale(1.55);transform-origin:68px 519px}
+.port #eyes{left:-400px;top:640px}
+.port .cta{left:60px;top:1730px;width:960px;height:120px;font-size:50px;border-radius:8px}
+.port .replay{left:60px;top:1628px;height:72px;border-radius:36px;font-size:24px;padding:0 28px 0 22px}
+.port .replay svg{width:28px;height:28px}
+@media (prefers-reduced-motion: reduce){.cta,.pill,.ham{transition:none}}
+</style>
+</head>
+<body>
+
+
+<div id="bg"></div>
+
+<div id="stage">
+  <div id="eyes" aria-hidden="true"><img src="img/eyes.webp" alt=""><img id="eyesBoost" src="img/eyes.webp" alt="">
+    <i class="flare" style="left:408px;top:415px"></i><i class="flare" style="left:1475px;top:417px"></i></div>
+  <img id="juicy" class="abs intro" src="img/juicy.webp" alt="Juicy" width="1335" height="445">
+
+  <div id="scene" class="abs">
+    <div id="burger" aria-hidden="true"></div>
+    <button id="hit" type="button" aria-label="Повторить анимацию"></button>
+  </div>
+
+  <div id="word" class="abs intro" role="img" aria-label="Monster">
+    <img class="base" src="img/monster-word.webp" alt="" width="760" height="260">
+    <svg id="shout" viewBox="0 0 300 300" aria-hidden="true"></svg>
+    <div id="oWrap">
+      <img id="oMouth" src="img/o-mouth.webp" alt="">
+      <img src="img/o-ring.webp" alt="">
+      <img id="oTop" src="img/o-top.webp" alt="">
+      <img id="oBot" src="img/o-bot.webp" alt="">
+    </div>
+  </div>
+
+
+  <nav class="nav intro" aria-label="Основная навигация">
+    <a class="navlink" href="#menu" style="left:154px">Menu</a>
+    <span class="sep" style="left:277px"></span>
+    <a class="navlink" href="#story" style="left:342px">Our story</a>
+    <span class="sep" style="left:520px"></span>
+    <a class="navlink" href="#monsters" style="left:590px" aria-current="page">The monsters</a>
+    <span class="sep" style="left:805px"></span>
+    <a class="navlink" href="#order" style="left:870px">Order online</a>
+    <a class="pill" href="#order">Order online</a>
+    <button class="ham" id="hamBtn" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="tags intro">
+    <div class="tag t1">Double smashed patties</div>
+    <div class="tag t2">Melted cheese</div>
+    <div class="tag t3">Monster-sized flavor</div>
+    <div class="tag t4">Fresh off the grill and straight<br>to your door</div>
+  </div>
+
+  <a class="cta intro" href="#menu">Feed the monster</a>
+  <button class="replay intro" id="replay" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/></svg>
+    Replay
+  </button>
+</div>
+
+<div id="panel" hidden>
+  <button class="close" id="closeBtn" type="button" aria-label="Закрыть меню">×</button>
+  <a href="#menu">Menu</a><a href="#story">Our story</a><a href="#monsters">The monsters</a><a href="#order">Order online</a>
+</div>
+
+<script>
+(()=>{
+/* ===== Layers, bottom → top. Scene coords = burger box (804×616). w,x,y = assembled size/position ===== */
+const LAYERS=[
+  {src:'bun-bottom', w:668, x:68,  y:330},
+  {src:'lettuce',    w:772, x:16,  y:342},
+  {src:'patty',      w:672, x:66,  y:238},
+  {src:'cheese',     w:700, x:52,  y:250},
+  {src:'bacon',      w:760, x:22,  y:216},
+  {src:'pickles',    w:500, x:152, y:206},
+  {src:'bun-top',    w:640, x:82,  y:-14}   // sits on the pickles instead of swallowing them
+];
+const RATIO={'bun-bottom':.418,'lettuce':.269,'patty':.366,'cheese':.361,'bacon':.238,'pickles':.269,'bun-top':.422};
+LAYERS.forEach(L=>L.h=Math.round(L.w*RATIO[L.src]));
+const LIFT=[0,195,330,462,592,702,800];   // exploded offsets: clean gaps like the reference
+const EXPLODE_SCALE=.55;
+const ANCHOR={x:402,y:609};               // bottom-centre of the bottom bun stays on the table
+const OX=250, OY=700;
+
+const burger=document.getElementById('burger');
+const els=LAYERS.map((L,i)=>{
+  const im=new Image(); im.src='img/'+L.src+'.webp'; im.alt=''; im.className='layer';
+  im.style.width=L.w+'px'; im.style.height=L.h+'px';
+  im.style.left=(L.x+OX)+'px'; im.style.top=(L.y+OY)+'px'; im.style.zIndex=i+1;
+  burger.appendChild(im); return im;
+});
+burger.style.transformOrigin=`${ANCHOR.x+OX}px ${ANCHOR.y+OY}px`;
+
+/* comic "shout" strokes around the O (centre of the O ≈ 150,180 in the svg) */
+const shout=document.getElementById('shout');
+const RAYS=[-160,-128,-98,-72,-44,-16,200,232].map((a,i)=>({a:a*Math.PI/180,len:i%2?38:54,d:i*.045}));
+const rays=RAYS.map(()=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');shout.appendChild(l);return l;});
+
+const intro=[...document.querySelectorAll('.intro')];
+const oWrap=document.getElementById('oWrap'),oTop=document.getElementById('oTop'),oBot=document.getElementById('oBot');
+const oMouth=document.getElementById('oMouth');
+const eyes=document.getElementById('eyes'), eyesBoost=document.getElementById('eyesBoost'), flares=[...document.querySelectorAll('.flare')];
+
+/* ===== timeline (s) ===== */
+const T={};
+T.explode=1.4; T.dur=1.1; T.stagger=.08;
+T.open=T.explode+T.stagger*5+T.dur;
+T.assemble=T.open+1.0;
+T.landDur=.66; T.landStagger=.15;
+T.closed=T.assemble+T.landStagger*5+T.landDur;
+T.shout=T.closed+.9;            // a beat of calm, then the O yells
+T.shoutEnd=T.shout+2.4;
+T.eyesIn=T.shout+1.6;          // eyes surface slowly from the dark
+T.eyesDur=3.4;
+T.flash=T.eyesIn+T.eyesDur+.5; // ...and light up for a second
+T.end=T.flash+1.4;
+
+const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const seg=(t,a,d)=>cl((t-a)/d);
+const eio=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const eo=p=>1-Math.pow(1-p,3);
+const sine=p=>-(Math.cos(Math.PI*p)-1)/2;
+const back=p=>{const c=1.4;return 1+(c+1)*Math.pow(p-1,3)+c*Math.pow(p-1,2);};
+
+// fall into place, then a small *upward* rebound (never pushes into the layer below)
+function landY(p,lift,soft){
+  const k=.74;
+  if(p<k){const q=p/k; return lift*(1-(q*q*.35+sine(q)*.65));}
+  const q=(p-k)/(1-k); return Math.sin(Math.PI*q)*(1-q*.3)*(soft?3:5);
+}
+function layerY(i,t){
+  if(i===0) return 0;
+  const lift=LIFT[i], s=T.explode+(6-i)*T.stagger;
+  const pe=eio(seg(t,s,T.dur));
+  const a=T.assemble+(i-1)*T.landStagger;
+  let y=t<a?-lift*pe:-landY(seg(t,a,T.landDur),lift,i===6);
+  const env=cl((t-s-T.dur*.6)/.5)*(1-cl((t-a)/.2));
+  y+=Math.sin((t-T.explode)*3.2+i*1.1)*4*env;
+  return y;
+}
+function groupScale(t){
+  const open=eio(seg(t,T.explode,T.dur+T.stagger*5));
+  const close=sine(seg(t,T.assemble,T.landStagger*5+T.landDur));
+  return 1-(1-EXPLODE_SCALE)*open*(1-close);
+}
+
+function render(t){
+  intro.forEach((el,i)=>{el.style.opacity=eo(seg(t,.05+i*.06,.7));});
+
+  // burger
+  burger.style.transform=`scale(${groupScale(t).toFixed(4)})`;
+  for(let i=0;i<els.length;i++) els[i].style.transform=`translate3d(0,${layerY(i,t).toFixed(2)}px,0)`;
+
+  // letter O yells
+  const o=t-T.shout;
+  let os=1,osy=1,ot=0,orr=0,ox=0;
+  if(o>0&&o<T.shoutEnd-T.shout){
+    const up=back(cl(o/.3)), calm=sine(cl((o-1.7)/.7)), k=up*(1-calm);
+    os=1+.14*k; osy=1+.16*k; ot=12*k;
+    const shake=(1-calm)*cl(o/.2);
+    orr=Math.sin(o*58)*3.5*shake*k; ox=Math.sin(o*46)*3*shake*k;
+  }
+  oWrap.style.transform=`translate(${ox.toFixed(2)}px,${(-6*(os-1)*10).toFixed(2)}px) rotate(${orr.toFixed(2)}deg) scale(${os.toFixed(3)},${(os*osy).toFixed(3)})`;
+  oTop.style.transform=`translateY(${(-ot).toFixed(2)}px)`;
+  oBot.style.transform=`translateY(${ot.toFixed(2)}px)`;
+  rays.forEach((l,i)=>{
+    const R=RAYS[i], p=seg(t,T.shout+.12+R.d,.25), out=1-seg(t,T.shoutEnd-.75,.45);
+    const v=eo(p)*out; const flick=.75+.25*Math.sin((t-T.shout)*30+i*2);
+    const r0=98+12*eo(p)+3*Math.sin((t-T.shout)*24+i), r1=r0+R.len*v;
+    l.setAttribute('x1',(150+Math.cos(R.a)*r0).toFixed(1)); l.setAttribute('y1',(180+Math.sin(R.a)*r0).toFixed(1));
+    l.setAttribute('x2',(150+Math.cos(R.a)*r1).toFixed(1)); l.setAttribute('y2',(180+Math.sin(R.a)*r1).toFixed(1));
+    l.style.opacity=(v*flick).toFixed(3);
+  });
+
+  // red mouth + tongue while the O yells
+  oMouth.style.opacity=(eo(seg(t,T.shout,.25))*(1-sine(seg(t,T.shoutEnd-.6,.6)))).toFixed(3);
+  // background eyes: slow fade-in, then a one-second glow
+  const ein=sine(seg(t,T.eyesIn,T.eyesDur));
+  const f=t-T.flash, glow=f<0?0:f<.3?sine(f/.3):f<.75?1:f<1.15?1-sine((f-.75)/.4):0;
+  eyes.style.opacity=(ein*.5+glow*.25).toFixed(3);   // only faintly visible
+  eyesBoost.style.opacity=(glow*.35).toFixed(3);
+  eyes.style.filter=glow>0?`brightness(${(1+.35*glow).toFixed(2)}) saturate(${(1+.2*glow).toFixed(2)})`:'none';
+  flares.forEach(fl=>{fl.style.opacity=(glow*.25).toFixed(3);fl.style.transform=`scale(${(.85+.2*glow).toFixed(3)})`;});
+}
+function lerp(a,b,p){return a+(b-a)*p;}
+
+/* ===== layout ===== */
+const stage=document.getElementById('stage'), bg=document.getElementById('bg'), scene=document.getElementById('scene');
+let portrait=false;
+function layout(){
+  const vw=innerWidth, vh=innerHeight;
+  portrait=vw/vh<.8;
+  document.body.classList.toggle('port',portrait);
+  const W=portrait?1080:1920, H=portrait?1920:1080;
+  const s=Math.min(vw/W,vh/H), ox=(vw-W*s)/2, oy=(vh-H*s)/2;
+  stage.style.width=W+'px'; stage.style.height=H+'px';
+  stage.style.transform=`translate(${ox}px,${oy}px) scale(${s})`;
+  const horizon=portrait?1000:770, D=oy+horizon*s;
+  const c=Math.max(vw/1920, vh/1080, D/770, (vh-D)/310);
+  bg.style.width=1920*c+'px'; bg.style.height=1080*c+'px';
+  bg.style.left=(vw-1920*c)/2+'px'; bg.style.top=Math.min(0,D-770*c)+'px';
+  let sceneS,sceneL,sceneT;
+  if(portrait){sceneS=1.0; sceneL=(1080-804*sceneS)/2; sceneT=1110-609*sceneS;}
+  else {sceneS=.9; sceneL=958-402*sceneS; sceneT=942-609*sceneS;}
+  scene.style.transform=`translate(${sceneL}px,${sceneT}px) scale(${sceneS})`;
+}
+addEventListener('resize',()=>{layout();render(clock());});
+
+/* ===== playback ===== */
+const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+const q=new URLSearchParams(location.search);
+let t0=performance.now(), frozen=q.has('t')?parseFloat(q.get('t')):null, raf=0;
+const clock=()=>frozen!==null?frozen:(performance.now()-t0)/1000;
+function loop(){const t=clock(); render(t); if(t<T.end+30&&frozen===null) raf=requestAnimationFrame(loop);}
+function play(){cancelAnimationFrame(raf); if(reduce.matches){frozen=T.end+4; render(frozen); return;} frozen=null; t0=performance.now(); loop();}
+function replay(){if(reduce.matches) return; cancelAnimationFrame(raf); frozen=null; t0=performance.now()-(T.explode-.4)*1000; loop();}
+document.getElementById('hit').addEventListener('click',replay);
+document.getElementById('replay').addEventListener('click',replay);
+
+/* menu panel */
+const panel=document.getElementById('panel'), hamBtn=document.getElementById('hamBtn');
+hamBtn.addEventListener('click',()=>{panel.hidden=false;hamBtn.setAttribute('aria-expanded','true');document.getElementById('closeBtn').focus();});
+const closeP=()=>{panel.hidden=true;hamBtn.setAttribute('aria-expanded','false');hamBtn.focus();};
+document.getElementById('closeBtn').addEventListener('click',closeP);
+panel.addEventListener('click',e=>{if(e.target.tagName==='A')closeP();});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden)closeP();});
+
+layout(); render(0);
+Promise.all([...document.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r;}))).then(()=>{
+  if(frozen!==null){render(frozen);return;}
+  play();
+});
+})();
+</script>
+
+</body>
+</html>

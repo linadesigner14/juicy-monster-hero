@@ -66,19 +66,19 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 /* ---------- LEAD: eyebrow, brush headline, line of copy, outline CTA ---------- */
 @font-face{font-family:"Permanent Marker";src:url(fonts/permanent-marker.woff) format("woff");font-weight:400;font-display:swap}
 :root{--brush:"Permanent Marker","Marker Felt","Comic Sans MS",cursive;--sky:#2E7DFF}
-.lead{position:absolute;left:68px;top:440px;width:470px;z-index:30;display:flex;flex-direction:column;align-items:flex-start}
+.lead{position:absolute;left:68px;top:392px;width:470px;z-index:30;display:flex;flex-direction:column;align-items:flex-start}
 .eyebrow{margin:0;font:600 18px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--sky)}
-.headline{margin:18px 0 0;font:400 84px/.92 var(--brush);text-transform:uppercase;color:var(--white);transform:rotate(-4deg);transform-origin:0 50%}
+.headline{margin:30px 0 0;font:400 84px/1.04 var(--brush);letter-spacing:.02em;text-transform:uppercase;color:var(--white);transform:rotate(-4deg);transform-origin:0 50%}
 .headline span{display:block}
 .headline .hot{color:var(--cheddar)}
-.copy{margin:30px 0 0;max-width:300px;text-wrap:balance;font:400 18px/1.45 var(--font);color:rgba(255,255,255,.72)}
-.cta{margin-top:36px;height:64px;padding:0 34px;border:2px solid var(--cheddar);border-radius:32px;background:rgba(5,7,13,.55);
+.copy{margin:44px 0 0;max-width:300px;text-wrap:balance;font:400 18px/1.45 var(--font);color:rgba(255,255,255,.72)}
+.cta{margin-top:48px;height:64px;padding:0 34px;border:2px solid var(--cheddar);border-radius:32px;background:rgba(5,7,13,.55);
   color:var(--white);display:inline-flex;align-items:center;gap:16px;font:500 19px/1 var(--font);letter-spacing:.04em;text-transform:uppercase;
   text-decoration:none;transition:background .2s,color .2s}
 .cta svg{width:22px;height:22px;transition:transform .2s}
 .cta:hover{background:var(--cheddar);color:#05070d}
 .cta:hover svg{transform:translateX(4px)}
-.replay{margin-top:18px;height:32px;padding:0 4px;border:0;background:transparent;color:rgba(255,255,255,.5);
+.replay{margin-top:24px;height:32px;padding:0 4px;border:0;background:transparent;color:rgba(255,255,255,.5);
   font:500 13px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:color .2s}
 .replay:hover{color:var(--white)}
 .replay svg{width:15px;height:15px}

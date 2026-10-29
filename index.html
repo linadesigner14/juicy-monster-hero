@@ -33,12 +33,13 @@ img{max-width:none;display:block;user-select:none;-webkit-user-drag:none}
 
 /* ---------- MONSTER EYES (slowly appear in the background, flash at the end) ---------- */
 #eyes{position:absolute;left:22px;top:226px;width:1882px;height:627px;z-index:1;pointer-events:none}
-.eye{position:absolute;top:0;width:941px;height:627px;overflow:hidden;opacity:0;will-change:transform,opacity,clip-path}
-.eye.l{left:0;transform-origin:482px 357px}
-.eye.r{left:941px;transform-origin:461px 356px}
-.eye img{position:absolute;top:0;width:1882px;height:627px}
-.eye.r img{left:-941px}
-.eye .boost{mix-blend-mode:screen;opacity:0}
+.eye{position:absolute;top:0;width:941px;height:627px;overflow:hidden;opacity:0;will-change:transform,opacity,filter}
+.eye.l{left:0;transform-origin:492px 331px}
+.eye.r{left:941px;transform-origin:447px 329px}
+.eye .base,.eye .irisWrap{position:absolute;top:0;width:1882px;height:627px}
+.eye.r .base,.eye.r .irisWrap{left:-941px}
+.irisWrap{-webkit-mask:url(img/eye-mask.png) 0 0/100% 100% no-repeat;mask:url(img/eye-mask.png) 0 0/100% 100% no-repeat}
+.iris{position:absolute;will-change:transform}
 #oMouth{opacity:0}
 .smoke{position:absolute;left:0;top:0;pointer-events:none}
 #smokeBack{z-index:1}
@@ -70,19 +71,19 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 .t2{left:69px;top:565.4px;width:172.6px;height:44.9px;transform:rotate(-3.09deg);background:var(--white);color:var(--blue)}
 .t3{left:108px;top:609.3px;width:251.5px;height:45.7px;transform:rotate(2.86deg);background:var(--cheddar);color:var(--blue)}
 .t4{left:69px;top:655.4px;width:386.5px;height:70.9px;transform:rotate(-1.65deg);background:var(--black);color:var(--white);display:block;padding-top:11px}
-.cta{position:absolute;left:68px;top:838px;width:403px;height:77px;border-radius:6px;background:linear-gradient(180deg,var(--blue-top),var(--blue-bot));
+.cta{position:absolute;left:68px;top:752px;width:403px;height:77px;border-radius:6px;background:linear-gradient(180deg,var(--blue-top),var(--blue-bot));
   color:var(--white);display:flex;align-items:center;justify-content:center;font-size:34px;text-transform:uppercase;text-decoration:none;
   letter-spacing:-.045em;transition:filter .2s,transform .2s;z-index:40;box-shadow:0 10px 30px rgba(0,60,180,.35)}
 .cta:hover{filter:brightness(1.15);transform:translateY(-2px)}
-.replay{position:absolute;left:68px;top:950px;height:44px;padding:0 18px 0 14px;border-radius:22px;border:1px solid var(--line);
+.replay{position:absolute;left:68px;top:852px;height:44px;padding:0 18px 0 14px;border-radius:22px;border:1px solid var(--line);
   background:rgba(0,0,0,.35);color:var(--white);font:500 14px/1 var(--font);letter-spacing:.06em;text-transform:uppercase;
   display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .2s,background .2s;z-index:40}
 .replay:hover{border-color:var(--white);background:rgba(0,99,250,.35)}
 .replay svg{width:18px;height:18px}
 
 /* ---------- LOGOS ---------- */
-#juicy{left:292px;top:74px;width:1335px;z-index:2}
-#word{left:580px;top:796px;width:760px;height:260px;z-index:20;pointer-events:none}
+#juicy{left:404px;top:71px;width:1108px;z-index:2}
+#word{left:422px;top:752px;width:760px;height:260px;z-index:20;pointer-events:none;transform:scale(1.42);transform-origin:0 0}
 #word img{position:absolute}
 #word .base{left:0;top:0;width:760px}
 #oWrap{position:absolute;left:150px;top:50px;width:140px;height:176px;transform-origin:50% 55%;will-change:transform}
@@ -112,11 +113,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 .port .ham{left:920px;top:70px;width:100px;height:100px;gap:11px}
 .port .ham span{width:44px;height:3px}
 .port #juicy{left:-10px;top:210px;width:1100px}
-.port #word{left:80px;top:1000px;transform:scale(1.21);transform-origin:0 0}
-.port .tags{transform:translate(-8px,766px) scale(1.55);transform-origin:68px 519px}
+.port #word{left:4px;top:990px;transform:scale(1.41);transform-origin:0 0}
+.port .tags{transform:translate(-8px,800px) scale(1.55);transform-origin:68px 519px}
 .port #eyes{left:-400px;top:660px}
-.port .cta{left:60px;top:1730px;width:960px;height:120px;font-size:50px;border-radius:8px}
-.port .replay{left:60px;top:1628px;height:72px;border-radius:36px;font-size:24px;padding:0 28px 0 22px}
+.port .cta{left:60px;top:1760px;width:960px;height:120px;font-size:50px;border-radius:8px}
+.port .replay{left:60px;top:1668px;height:72px;border-radius:36px;font-size:24px;padding:0 28px 0 22px}
 .port .replay svg{width:28px;height:28px}
 @media (prefers-reduced-motion: reduce){.cta,.pill,.ham{transition:none}}
 </style>
@@ -126,8 +127,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 
 <div id="stage">
   <div id="eyes" aria-hidden="true">
-    <div class="eye l"><img src="img/eyes.webp" alt=""><img class="boost" src="img/eyes.webp" alt=""><i class="flare" style="left:482px;top:357px"></i></div>
-    <div class="eye r"><img src="img/eyes.webp" alt=""><img class="boost" src="img/eyes.webp" alt=""><i class="flare" style="left:461px;top:356px"></i></div>
+    <div class="eye l"><img class="base" src="img/eyes-base.webp" alt=""><div class="irisWrap"><img class="iris" src="img/iris0.webp" alt="" style="left:383.9px;top:223.6px;width:214.9px;height:214.9px"></div><i class="flare" style="left:492px;top:331px"></i></div>
+    <div class="eye r"><img class="base" src="img/eyes-base.webp" alt=""><div class="irisWrap"><img class="iris" src="img/iris1.webp" alt="" style="left:1277.2px;top:218.4px;width:220.1px;height:220.1px"></div><i class="flare" style="left:447px;top:329px"></i></div>
   </div>
   <canvas id="smokeBack" class="smoke" aria-hidden="true"></canvas>
   <img id="juicy" class="abs intro" src="img/juicy.webp" alt="Juicy" width="1335" height="445">
@@ -217,7 +218,32 @@ const rays=RAYS.map(()=>{const l=document.createElementNS('http://www.w3.org/200
 const intro=[...document.querySelectorAll('.intro')];
 const oWrap=document.getElementById('oWrap'),oTop=document.getElementById('oTop'),oBot=document.getElementById('oBot');
 const oMouth=document.getElementById('oMouth');
-const eyeEls=[...document.querySelectorAll('.eye')].map(e=>({el:e,boost:e.querySelector('.boost'),flare:e.querySelector('.flare'),irisY:e.classList.contains('l')?357:356}));
+const eyeEls=[...document.querySelectorAll('.eye')].map((e,k)=>({el:e,iris:e.querySelector('.iris'),flare:e.querySelector('.flare'),
+  cx:k?1387.7:491.7, cy:k?328.8:331.4, fx:k?447:492, fy:k?329:331, ox:0, oy:0}));
+// gaze: eyes follow the cursor; without a cursor they watch the burger
+let pointer=null;
+addEventListener('pointermove',e=>{pointer={x:e.clientX,y:e.clientY};},{passive:true});
+document.documentElement.addEventListener('pointerleave',()=>{pointer=null;});
+const eyesBox=document.getElementById('eyes');
+function updateGaze(){
+  const r=eyesBox.getBoundingClientRect(), k=r.width/1882;
+  eyeEls.forEach(E=>{
+    const ex=r.left+E.cx*k, ey=r.top+E.cy*k;
+    let tx=0,ty=0;
+    if(pointer){
+      const dx=pointer.x-ex, dy=pointer.y-ey, d=Math.hypot(dx,dy)||1, reach=Math.min(1,d/(520*k));
+      tx=dx/d*38*reach; ty=dy/d*16*reach;
+    } else {                                             // idle: glance toward the burger, drifting slightly
+      const now=performance.now()/1000;
+      tx=(E===eyeEls[0]?18:-18)+Math.sin(now*.6)*6; ty=8+Math.sin(now*.43)*3;
+    }
+    E.ox+=(tx-E.ox)*.12; E.oy+=(ty-E.oy)*.12;
+    E.iris.style.transform=`translate(${E.ox.toFixed(2)}px,${E.oy.toFixed(2)}px)`;
+    E.flare.style.left=(E.fx+E.ox)+'px'; E.flare.style.top=(E.fy+E.oy)+'px';
+  });
+  requestAnimationFrame(updateGaze);
+}
+requestAnimationFrame(updateGaze);
 
 /* ===== timeline (s) ===== */
 const T={};
@@ -228,10 +254,9 @@ T.landDur=.66; T.landStagger=.15;
 T.closed=T.assemble+T.landStagger*5+T.landDur;
 T.shout=T.closed+.9;            // a beat of calm, then the O yells
 T.shoutEnd=T.shout+2.4;
-T.eyesIn=T.shout+1.4;          // eyes surface from the dark, squint, then open wide
-T.blink=T.eyesIn+3.0;          // one quick blink
-T.flash=T.blink+.6;            // a soft warm glow, no blow-out
-T.smoke=T.flash+.55;           // ...then the dragon exhales: smoke rolls around the burger
+T.eyesIn=T.shout+1.4;          // eyes slowly surface from the dark
+T.flash=T.eyesIn+3.0;          // they light up, then dim again
+T.smoke=T.flash+1.5;           // ...and a light smoke wraps the burger
 T.end=T.smoke+7.5;
 
 const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
@@ -294,25 +319,17 @@ function render(t){
   // red mouth + tongue while the O yells
   oMouth.style.opacity=(eo(seg(t,T.shout,.25))*(1-sine(seg(t,T.shoutEnd-.6,.6)))).toFixed(3);
   // background eyes: emerge → squint → open → blink → soft glow
-  const f=t-T.flash, glow=f<0?0:f<.5?sine(f/.5):f<1.3?1:f<2.3?1-sine((f-1.3)/1):0;
+  const f=t-T.flash, glow=f<0?0:f<.8?sine(f/.8):f<1.4?1:f<2.8?1-sine((f-1.4)/1.4):0;
   eyeEls.forEach((E,k)=>{
-    const st=T.eyesIn+k*.18;                              // right eye follows a beat later
-    const vis=sine(seg(t,st,1.6));
-    let lid=.32*eo(seg(t,st+.2,.9));                      // narrow squint
-    lid+= .68*sine(seg(t,st+1.9,.6));                     // then open smoothly
-    const b=t-T.blink-k*.03; if(b>0&&b<.34){lid*=1-Math.sin(Math.PI*b/.34)*.95;}
-    lid=Math.max(0,Math.min(1,lid));
-    const top=(E.irisY/627*100)*(1-lid), bot=((627-E.irisY)/627*100)*(1-lid);
-    E.el.style.clipPath=`inset(${top.toFixed(2)}% 0 ${bot.toFixed(2)}% 0)`;
-    const push=1.08-.08*sine(seg(t,st,2.6));
-    const breathe=t>st+2.6?Math.sin((t-st)*1.5)*.005:0;
-    E.el.style.transform=`scale(${(push+breathe+.012*glow).toFixed(4)})`;
-    E.el.style.opacity=(vis*.62).toFixed(3);
-    E.el.style.filter='none';
-    E.boost.style.opacity=(glow*.22).toFixed(3);
-    const ember=t>st+2.2?.06+.03*Math.sin((t-st)*2.4+k):0;
-    E.flare.style.opacity=(ember*vis+glow*.32).toFixed(3);
-    E.flare.style.transform=`scale(${(.62+.12*glow).toFixed(3)})`;
+    const st=T.eyesIn+k*.15;
+    const vis=sine(seg(t,st,2.6));                        // gradual appearance, no blinking
+    const push=1.05-.05*sine(seg(t,st,3.2));
+    E.el.style.transform=`scale(${(push+.01*glow).toFixed(4)})`;
+    E.el.style.opacity=(vis*(.6+.3*glow)).toFixed(3);
+    E.el.style.filter=glow>0?`brightness(${(1+.3*glow).toFixed(2)}) saturate(${(1+.15*glow).toFixed(2)})`:'none';
+    const ember=t>st+2.6?.05+.025*Math.sin((t-st)*2.2+k):0;
+    E.flare.style.opacity=(ember*vis+glow*.4).toFixed(3);
+    E.flare.style.transform=`scale(${(.6+.12*glow).toFixed(3)})`;
   });
   drawSmoke(t);
 }
@@ -349,7 +366,7 @@ const PARTS=(()=>{const r=rng(7),a=[];
       side, ang:(.08+r()*.5)*Math.PI*.5,             // low, sweeping angle out along the table
       speed:560+r()*520, drag:1.1+r()*.7, lift:10+r()*26,
       r0:40+r()*36, grow:70+r()*110, spin:(r()-.5)*.6, rot:r()*6.28,
-      life:4.2+r()*2.4, peak:.34+r()*.22, puff:Math.floor(r()*4),
+      life:4.6+r()*2.4, peak:.22+r()*.14, puff:Math.floor(r()*4),
       dx:(r()-.5)*200, dy:(r()-.5)*30, front:r()<.5
     });
   }
@@ -398,7 +415,7 @@ function layout(){
   bg.style.left=(vw-1920*c)/2+'px'; bg.style.top=Math.min(0,D-770*c)+'px';
   let sceneS,sceneL,sceneT;
   if(portrait){sceneS=1.0; sceneL=(1080-804*sceneS)/2; sceneT=1110-609*sceneS;}
-  else {sceneS=.9; sceneL=958-402*sceneS; sceneT=942-609*sceneS;}
+  else {sceneS=.9; sceneL=958-402*sceneS; sceneT=905-609*sceneS;}
   scene.style.transform=`translate(${sceneL}px,${sceneT}px) scale(${sceneS})`;
   SW=W; SH=H; ORX=sceneL+402*sceneS; ORY=sceneT+609*sceneS; BH=600*sceneS;
   SR=Math.min(1,Math.max(.5,s*(window.devicePixelRatio||1)));

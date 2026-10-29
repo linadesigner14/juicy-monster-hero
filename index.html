@@ -63,23 +63,25 @@ img{max-width:none;display:block;user-select:none;-webkit-user-drag:none}
 .ham:hover{background:var(--white)} .ham:hover span{background:var(--black)}
 a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-offset:3px}
 
-/* ---------- TAGS (tilted, as in the frame) + CTA ---------- */
-.tags{position:absolute;left:0;top:0;z-index:30}
-.tag{position:absolute;box-sizing:border-box;padding:0 10px;font-size:21px;line-height:24px;display:flex;align-items:center;
-  text-transform:uppercase;letter-spacing:-.065em;white-space:nowrap}
-.t1{left:69px;top:519.4px;width:270.6px;height:45.7px;transform:rotate(3.63deg);background:var(--blue);color:var(--white)}
-.t2{left:69px;top:565.4px;width:172.6px;height:44.9px;transform:rotate(-3.09deg);background:var(--white);color:var(--blue)}
-.t3{left:108px;top:609.3px;width:251.5px;height:45.7px;transform:rotate(2.86deg);background:var(--cheddar);color:var(--blue)}
-.t4{left:69px;top:655.4px;width:386.5px;height:70.9px;transform:rotate(-1.65deg);background:var(--black);color:var(--white);display:block;padding-top:11px}
-.cta{position:absolute;left:68px;top:752px;width:403px;height:77px;border-radius:6px;background:linear-gradient(180deg,var(--blue-top),var(--blue-bot));
-  color:var(--white);display:flex;align-items:center;justify-content:center;font-size:34px;text-transform:uppercase;text-decoration:none;
-  letter-spacing:-.045em;transition:filter .2s,transform .2s;z-index:40;box-shadow:0 10px 30px rgba(0,60,180,.35)}
-.cta:hover{filter:brightness(1.15);transform:translateY(-2px)}
-.replay{position:absolute;left:68px;top:852px;height:44px;padding:0 18px 0 14px;border-radius:22px;border:1px solid var(--line);
-  background:rgba(0,0,0,.35);color:var(--white);font:500 14px/1 var(--font);letter-spacing:.06em;text-transform:uppercase;
-  display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .2s,background .2s;z-index:40}
-.replay:hover{border-color:var(--white);background:rgba(0,99,250,.35)}
-.replay svg{width:18px;height:18px}
+/* ---------- LEAD: eyebrow, brush headline, line of copy, outline CTA ---------- */
+@font-face{font-family:"Permanent Marker";src:url(fonts/permanent-marker.woff) format("woff");font-weight:400;font-display:swap}
+:root{--brush:"Permanent Marker","Marker Felt","Comic Sans MS",cursive;--sky:#2E7DFF}
+.lead{position:absolute;left:68px;top:440px;width:470px;z-index:30;display:flex;flex-direction:column;align-items:flex-start}
+.eyebrow{margin:0;font:600 18px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--sky)}
+.headline{margin:18px 0 0;font:400 84px/.92 var(--brush);text-transform:uppercase;color:var(--white);transform:rotate(-4deg);transform-origin:0 50%}
+.headline span{display:block}
+.headline .hot{color:var(--cheddar)}
+.copy{margin:30px 0 0;max-width:300px;text-wrap:balance;font:400 18px/1.45 var(--font);color:rgba(255,255,255,.72)}
+.cta{margin-top:36px;height:64px;padding:0 34px;border:2px solid var(--cheddar);border-radius:32px;background:rgba(5,7,13,.55);
+  color:var(--white);display:inline-flex;align-items:center;gap:16px;font:500 19px/1 var(--font);letter-spacing:.04em;text-transform:uppercase;
+  text-decoration:none;transition:background .2s,color .2s}
+.cta svg{width:22px;height:22px;transition:transform .2s}
+.cta:hover{background:var(--cheddar);color:#05070d}
+.cta:hover svg{transform:translateX(4px)}
+.replay{margin-top:18px;height:32px;padding:0 4px;border:0;background:transparent;color:rgba(255,255,255,.5);
+  font:500 13px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:color .2s}
+.replay:hover{color:var(--white)}
+.replay svg{width:15px;height:15px}
 
 /* ---------- LOGOS ---------- */
 #juicy{left:404px;top:71px;width:1108px;z-index:2}
@@ -114,11 +116,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 .port .ham span{width:44px;height:3px}
 .port #juicy{left:-10px;top:210px;width:1100px}
 .port #word{left:4px;top:990px;transform:scale(1.41);transform-origin:0 0}
-.port .tags{transform:translate(-8px,800px) scale(1.55);transform-origin:68px 519px}
+.port .lead{left:60px;top:1330px;width:820px;transform:scale(1.15);transform-origin:0 0}
 .port #eyes{left:-400px;top:660px}
-.port .cta{left:60px;top:1760px;width:960px;height:120px;font-size:50px;border-radius:8px}
-.port .replay{left:60px;top:1668px;height:72px;border-radius:36px;font-size:24px;padding:0 28px 0 22px}
-.port .replay svg{width:28px;height:28px}
 @media (prefers-reduced-motion: reduce){.cta,.pill,.ham{transition:none}}
 </style>
 </head>
@@ -163,18 +162,17 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
     <button class="ham" id="hamBtn" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
   </nav>
 
-  <div class="tags intro">
-    <div class="tag t1">Double smashed patties</div>
-    <div class="tag t2">Melted cheese</div>
-    <div class="tag t3">Monster-sized flavor</div>
-    <div class="tag t4">Fresh off the grill and straight<br>to your door</div>
+  <div class="lead intro">
+    <p class="eyebrow">Double smashed patties</p>
+    <h1 class="headline"><span>Monster-</span><span class="hot">sized</span><span>flavor</span></h1>
+    <p class="copy">Fresh off the grill and straight to your door.</p>
+    <a class="cta" href="#menu">Feed the monster
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg></a>
+    <button class="replay" id="replay" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/></svg>
+      Replay
+    </button>
   </div>
-
-  <a class="cta intro" href="#menu">Feed the monster</a>
-  <button class="replay intro" id="replay" type="button">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/></svg>
-    Replay
-  </button>
 </div>
 
 <div id="panel" hidden>

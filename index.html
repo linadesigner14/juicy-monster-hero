@@ -32,12 +32,12 @@ body{margin:0;background:var(--ink);color:var(--white);font-family:var(--font);o
 img{max-width:none;display:block;user-select:none;-webkit-user-drag:none}
 
 /* ---------- MONSTER EYES (slowly appear in the background, flash at the end) ---------- */
-#eyes{position:absolute;left:22px;top:184px;width:1882px;height:710px;z-index:1;pointer-events:none;opacity:0}
+#eyes{position:absolute;left:22px;top:212px;width:1882px;height:653px;z-index:1;pointer-events:none;opacity:0}
 #eyes img{position:absolute;inset:0;width:100%;height:100%}
 #eyesBoost{mix-blend-mode:screen;opacity:0}
 #oMouth{opacity:0}
 .flare{position:absolute;width:420px;height:420px;margin:-210px 0 0 -210px;border-radius:50%;opacity:0;mix-blend-mode:screen;
-  background:radial-gradient(circle,rgba(0,0,0,0) 0 9%,rgba(120,210,255,.9) 16%,rgba(40,120,255,.55) 32%,rgba(0,80,255,.18) 52%,rgba(0,60,255,0) 70%)}
+  background:radial-gradient(circle,rgba(0,0,0,0) 0 9%,rgba(255,200,90,.9) 16%,rgba(255,120,20,.55) 32%,rgba(255,70,0,.18) 52%,rgba(255,60,0,0) 70%)}
 
 /* ---------- NAV (exact frame coords) ---------- */
 .navlink{position:absolute;top:50px;height:24px;line-height:24px;font-size:20px;font-weight:400;color:var(--white);
@@ -115,13 +115,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 </style>
 </head>
 <body>
-
-
 <div id="bg"></div>
 
 <div id="stage">
   <div id="eyes" aria-hidden="true"><img src="img/eyes.webp" alt=""><img id="eyesBoost" src="img/eyes.webp" alt="">
-    <i class="flare" style="left:408px;top:415px"></i><i class="flare" style="left:1475px;top:417px"></i></div>
+    <i class="flare" style="left:484px;top:339px"></i><i class="flare" style="left:1386px;top:339px"></i></div>
   <img id="juicy" class="abs intro" src="img/juicy.webp" alt="Juicy" width="1335" height="445">
 
   <div id="scene" class="abs">

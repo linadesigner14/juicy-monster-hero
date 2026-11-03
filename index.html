@@ -6,7 +6,7 @@
 <title>Juicy Monster Hero</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: the Figma frame (1920×1080) rebuilt 1:1 as a scaled stage; a portrait stage (1080×1920) for phones. */
 :root{
@@ -63,25 +63,33 @@ img{max-width:none;display:block;user-select:none;-webkit-user-drag:none}
 .ham:hover{background:var(--white)} .ham:hover span{background:var(--black)}
 a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-offset:3px}
 
-/* ---------- LEAD: eyebrow, brush headline, line of copy, outline CTA ---------- */
-@font-face{font-family:"Permanent Marker";src:url(fonts/permanent-marker.woff) format("woff");font-weight:400;font-display:swap}
-:root{--brush:"Permanent Marker","Marker Felt","Comic Sans MS",cursive;--sky:#2E7DFF}
-.lead{position:absolute;left:68px;top:392px;width:470px;z-index:30;display:flex;flex-direction:column;align-items:flex-start}
-.eyebrow{margin:0;font:600 18px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--sky)}
-.headline{margin:30px 0 0;font:400 84px/1.04 var(--brush);letter-spacing:.02em;text-transform:uppercase;color:var(--white);transform:rotate(-4deg);transform-origin:0 50%}
-.headline span{display:block}
-.headline .hot{color:var(--cheddar)}
-.copy{margin:44px 0 0;max-width:300px;text-wrap:balance;font:400 18px/1.45 var(--font);color:rgba(255,255,255,.72)}
-.cta{margin-top:48px;height:64px;padding:0 34px;border:2px solid var(--cheddar);border-radius:32px;background:rgba(5,7,13,.55);
-  color:var(--white);display:inline-flex;align-items:center;gap:16px;font:500 19px/1 var(--font);letter-spacing:.04em;text-transform:uppercase;
-  text-decoration:none;transition:background .2s,color .2s}
-.cta svg{width:22px;height:22px;transition:transform .2s}
-.cta:hover{background:var(--cheddar);color:#05070d}
-.cta:hover svg{transform:translateX(4px)}
-.replay{margin-top:24px;height:32px;padding:0 4px;border:0;background:transparent;color:rgba(255,255,255,.5);
-  font:500 13px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:color .2s}
+/* ---------- LEAD: one family (Inter), 8px grid, one primary action ---------- */
+.scrim{position:absolute;left:0;top:0;width:760px;height:1080px;z-index:25;pointer-events:none;
+  background:linear-gradient(90deg,rgba(5,7,13,.78) 0%,rgba(5,7,13,.5) 45%,rgba(5,7,13,0) 100%)}
+.lead{position:absolute;left:96px;top:424px;width:440px;z-index:30;display:flex;flex-direction:column;align-items:flex-start}
+.kicker{display:flex;align-items:center;gap:12px;margin:0;font:600 13px/1 var(--font);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.kicker::before{content:"";width:32px;height:2px;background:var(--cheddar)}
+.headline{margin:24px 0 0;font:800 72px/.94 var(--font);letter-spacing:-.045em;color:var(--white);text-wrap:balance}
+.headline em{font-style:normal;color:var(--cheddar)}
+.copy{margin:24px 0 0;max-width:360px;font:400 18px/1.55 var(--font);color:rgba(255,255,255,.66)}
+.actions{margin-top:40px;display:flex;align-items:center;gap:28px}
+.cta{height:60px;padding:0 10px 0 28px;border-radius:30px;background:var(--cheddar);color:#0a0a0a;display:inline-flex;align-items:center;gap:18px;
+  font:600 16px/1 var(--font);letter-spacing:.02em;text-decoration:none;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.cta .arr{width:40px;height:40px;border-radius:50%;background:#0a0a0a;color:var(--cheddar);display:grid;place-items:center;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.cta .arr svg{width:18px;height:18px}
+.cta:hover{transform:translateY(-2px);box-shadow:0 12px 28px -10px rgba(255,175,0,.55)}
+.cta:hover .arr{transform:rotate(-45deg)}
+.link{font:500 16px/1 var(--font);color:var(--white);text-decoration:none;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.35);transition:border-color .2s}
+.link:hover{border-color:var(--cheddar)}
+.facts{margin:48px 0 0;padding:24px 0 0;border-top:1px solid rgba(255,255,255,.14);display:grid;grid-template-columns:repeat(3,auto);gap:28px;list-style:none;padding-left:0;margin-left:0}
+.facts li{display:flex;flex-direction:column;gap:6px}
+.facts b{font:700 22px/1 var(--font);letter-spacing:-.02em;color:var(--white)}
+.facts span{font:500 12px/1.2 var(--font);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.replay{position:absolute;left:96px;top:1012px;z-index:40;height:32px;padding:0;border:0;background:transparent;color:rgba(255,255,255,.4);
+  font:500 12px/1 var(--font);letter-spacing:.12em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:color .2s}
 .replay:hover{color:var(--white)}
-.replay svg{width:15px;height:15px}
+.replay svg{width:14px;height:14px}
+.lead>*{opacity:0;transform:translateY(14px)}
 
 /* ---------- LOGOS ---------- */
 #juicy{left:404px;top:71px;width:1108px;z-index:2}
@@ -116,7 +124,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 .port .ham span{width:44px;height:3px}
 .port #juicy{left:-10px;top:210px;width:1100px}
 .port #word{left:4px;top:990px;transform:scale(1.41);transform-origin:0 0}
-.port .lead{left:60px;top:1330px;width:820px;transform:scale(1.15);transform-origin:0 0}
+.port .lead{left:72px;top:1380px;width:900px;transform:scale(1.25);transform-origin:0 0}
+.port .scrim{display:none}
+.port .replay{left:auto;right:72px;top:1856px;font-size:20px}
 .port #eyes{left:-400px;top:660px}
 @media (prefers-reduced-motion: reduce){.cta,.pill,.ham{transition:none}}
 </style>
@@ -162,17 +172,25 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
     <button class="ham" id="hamBtn" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
   </nav>
 
-  <div class="lead intro">
-    <p class="eyebrow">Double smashed patties</p>
-    <h1 class="headline"><span>Monster-</span><span class="hot">sized</span><span>flavor</span></h1>
-    <p class="copy">Fresh off the grill and straight to your door.</p>
-    <a class="cta" href="#menu">Feed the monster
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg></a>
-    <button class="replay" id="replay" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/></svg>
-      Replay
-    </button>
+  <div class="scrim" aria-hidden="true"></div>
+  <div class="lead">
+    <p class="kicker">Smash burgers</p>
+    <h1 class="headline">Monster&#8209;sized <em>flavor.</em></h1>
+    <p class="copy">Double smashed patties and melted cheese, fresh off the grill and straight to your door.</p>
+    <div class="actions">
+      <a class="cta" href="#menu">Feed the monster<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span></a>
+      <a class="link" href="#menu">View menu</a>
+    </div>
+    <ul class="facts">
+      <li><b>2&times;</b><span>Smashed patties</span></li>
+      <li><b>100%</b><span>Beef</span></li>
+      <li><b>Hot</b><span>Off the grill</span></li>
+    </ul>
   </div>
+  <button class="replay intro" id="replay" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/></svg>
+    Replay
+  </button>
 </div>
 
 <div id="panel" hidden>
@@ -213,7 +231,7 @@ const shout=document.getElementById('shout');
 const RAYS=[-160,-128,-98,-72,-44,-16,200,232].map((a,i)=>({a:a*Math.PI/180,len:i%2?38:54,d:i*.045}));
 const rays=RAYS.map(()=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');shout.appendChild(l);return l;});
 
-const intro=[...document.querySelectorAll('.intro')];
+const intro=[...document.querySelectorAll('.intro')], leadKids=[...document.querySelectorAll('.lead>*')];
 const oWrap=document.getElementById('oWrap'),oTop=document.getElementById('oTop'),oBot=document.getElementById('oBot');
 const oMouth=document.getElementById('oMouth');
 const eyeEls=[...document.querySelectorAll('.eye')].map((e,k)=>({el:e,iris:e.querySelector('.iris'),flare:e.querySelector('.flare'),
@@ -288,6 +306,7 @@ function groupScale(t){
 
 function render(t){
   intro.forEach((el,i)=>{el.style.opacity=eo(seg(t,.05+i*.06,.7));});
+  leadKids.forEach((el,i)=>{const p=eo(seg(t,.25+i*.09,.8)); el.style.opacity=p; el.style.transform=`translateY(${(14*(1-p)).toFixed(1)}px)`;});
 
   // burger
   burger.style.transform=`scale(${groupScale(t).toFixed(4)})`;

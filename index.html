@@ -108,7 +108,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 
 /* ---------- BURGER ---------- */
 #scene{left:0;top:0;width:804px;height:616px;transform-origin:0 0;z-index:10}
-#burger{position:absolute;left:-250px;top:-700px;width:1304px;height:1400px}
+#burger{position:absolute;left:-250px;top:-700px;width:1304px;height:1400px;transform-style:preserve-3d;will-change:transform}
+#bShadow{position:absolute;left:62px;top:568px;width:680px;height:78px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(0,0,0,.62),rgba(0,0,0,.3) 55%,rgba(0,0,0,0));will-change:transform,opacity}
 .layer{position:absolute;will-change:transform}
 #hit{position:absolute;left:70px;top:80px;width:670px;height:530px;border-radius:40%;cursor:pointer;background:transparent;border:0;z-index:5}
 
@@ -148,6 +150,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
   <img id="juicy" class="abs intro" src="img/juicy.webp" alt="Juicy" width="1335" height="445">
 
   <div id="scene" class="abs">
+    <div id="bShadow" aria-hidden="true"></div>
     <div id="burger" aria-hidden="true"></div>
     <button id="hit" type="button" aria-label="Повторить анимацию"></button>
   </div>
@@ -285,6 +288,7 @@ function updateGaze(){
   requestAnimationFrame(updateGaze);
 }
 requestAnimationFrame(updateGaze);
+requestAnimationFrame(()=>tilt());
 
 /* ===== timeline (s) ===== */
 const T={};
@@ -329,6 +333,30 @@ function groupScale(t){
   return 1-(1-EXPLODE_SCALE)*open*(1-close);
 }
 
+/* ===== pseudo-3D: the burger tilts toward the cursor, layers parallax at their own depth ===== */
+const B={gs:1,open:0,rx:0,ry:0};
+const bShadow=document.getElementById('bShadow');
+const tiltOK=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+function tilt(){
+  const now=performance.now()/1000;
+  let tx=0,ty=0;
+  if(tiltOK){
+    if(pointer){
+      const r=scene.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height*.55;
+      const dx=Math.max(-1,Math.min(1,(pointer.x-cx)/(innerWidth*.5))), dy=Math.max(-1,Math.min(1,(pointer.y-cy)/(innerHeight*.5)));
+      ty=dx*9; tx=-dy*6;
+    } else { ty=Math.sin(now*.45)*5; tx=Math.sin(now*.31)*2; }   // no cursor: slow idle turn
+    tx+=B.open*4;                                              // when open, the stack leans back a little
+    ty+=B.open*Math.sin(now*.9)*4;
+  }
+  B.rx+=(tx-B.rx)*.08; B.ry+=(ty-B.ry)*.08;
+  const float=tiltOK?Math.sin(now*1.3)*3*(1-B.open):0;
+  burger.style.transform=`perspective(1500px) translateY(${float.toFixed(2)}px) rotateX(${B.rx.toFixed(3)}deg) rotateY(${B.ry.toFixed(3)}deg) scale(${B.gs.toFixed(4)})`;
+  bShadow.style.transform=`translateX(${(-B.ry*4).toFixed(1)}px) scale(${(B.gs*(1-float*.006)).toFixed(3)},${B.gs.toFixed(3)})`;
+  bShadow.style.opacity=(.85-.25*B.open).toFixed(3);
+  requestAnimationFrame(tilt);
+}
+
 function render(t){
   intro.forEach((el,i)=>{el.style.opacity=eo(seg(t,.05+i*.06,.7));});
   // kicker first, then the headline letter by letter, then copy, actions and facts
@@ -343,8 +371,12 @@ function render(t){
   swipe.style.transform=`scaleX(${eo(seg(t,1.35,.55)).toFixed(3)})`;
 
   // burger
-  burger.style.transform=`scale(${groupScale(t).toFixed(4)})`;
-  for(let i=0;i<els.length;i++) els[i].style.transform=`translate3d(0,${layerY(i,t).toFixed(2)}px,0)`;
+  B.gs=groupScale(t);
+  B.open=(1-B.gs)/(1-EXPLODE_SCALE);                          // 0 = assembled, 1 = fully open
+  for(let i=0;i<els.length;i++){
+    const z=i*2+B.open*i*34;                                  // each layer sits at its own depth → parallax
+    els[i].style.transform=`translate3d(0,${layerY(i,t).toFixed(2)}px,${z.toFixed(1)}px)`;
+  }
 
   // letter O yells
   const o=t-T.shout;

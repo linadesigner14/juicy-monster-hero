@@ -292,16 +292,16 @@ requestAnimationFrame(()=>tilt());
 
 /* ===== timeline (s) ===== */
 const T={};
-T.explode=1.4; T.dur=1.1; T.stagger=.08;
+T.explode=1.0; T.dur=.85; T.stagger=.06;
 T.open=T.explode+T.stagger*5+T.dur;
-T.assemble=T.open+1.0;
-T.landDur=.66; T.landStagger=.15;
+T.assemble=T.open+.6;
+T.landDur=.55; T.landStagger=.11;
 T.closed=T.assemble+T.landStagger*5+T.landDur;
-T.shout=T.closed+.9;            // a beat of calm, then the O yells
-T.shoutEnd=T.shout+2.4;
-T.eyesIn=T.shout+1.4;          // eyes slowly surface from the dark
-T.flash=T.eyesIn+3.0;          // they light up, then dim again
-T.smoke=T.flash+1.5;           // ...and a light smoke wraps the burger
+T.shout=T.closed+.5;            // a beat of calm, then the O yells
+T.shoutEnd=T.shout+1.8;
+T.eyesIn=T.shout+.9;          // eyes slowly surface from the dark
+T.flash=T.eyesIn+2.2;          // they light up, then dim again
+T.smoke=T.flash+1.0;           // ...and a light smoke wraps the burger
 T.end=T.smoke+7.5;
 
 const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
@@ -381,7 +381,7 @@ function render(t){
   const o=t-T.shout;
   let os=1,osy=1,ot=0,orr=0,ox=0;
   if(o>0&&o<T.shoutEnd-T.shout){
-    const up=back(cl(o/.3)), calm=sine(cl((o-1.7)/.7)), k=up*(1-calm);
+    const up=back(cl(o/.3)), calm=sine(cl((o-1.3)/.5)), k=up*(1-calm);
     os=1+.14*k; osy=1+.16*k; ot=12*k;
     const shake=(1-calm)*cl(o/.2);
     orr=Math.sin(o*58)*3.5*shake*k; ox=Math.sin(o*46)*3*shake*k;
@@ -401,15 +401,15 @@ function render(t){
   // red mouth + tongue while the O yells
   oMouth.style.opacity=(eo(seg(t,T.shout,.25))*(1-sine(seg(t,T.shoutEnd-.6,.6)))).toFixed(3);
   // background eyes: emerge → squint → open → blink → soft glow
-  const f=t-T.flash, glow=f<0?0:f<.8?sine(f/.8):f<1.4?1:f<2.8?1-sine((f-1.4)/1.4):0;
+  const f=t-T.flash, glow=f<0?0:f<.6?sine(f/.6):f<1.0?1:f<2.0?1-sine((f-1.0)/1.0):0;
   eyeEls.forEach((E,k)=>{
     const st=T.eyesIn+k*.15;
-    const vis=sine(seg(t,st,2.6));                        // gradual appearance, no blinking
-    const push=1.05-.05*sine(seg(t,st,3.2));
+    const vis=sine(seg(t,st,1.8));                        // gradual appearance, no blinking
+    const push=1.05-.05*sine(seg(t,st,2.4));
     E.el.style.transform=`scale(${(push+.01*glow).toFixed(4)})`;
     E.el.style.opacity=(vis*(.6+.3*glow)).toFixed(3);
     E.el.style.filter=glow>0?`brightness(${(1+.3*glow).toFixed(2)}) saturate(${(1+.15*glow).toFixed(2)})`:'none';
-    const ember=t>st+2.6?.05+.025*Math.sin((t-st)*2.2+k):0;
+    const ember=t>st+1.8?.05+.025*Math.sin((t-st)*2.2+k):0;
     E.flare.style.opacity=(ember*vis+glow*.4).toFixed(3);
     E.flare.style.transform=`scale(${(.6+.12*glow).toFixed(3)})`;
   });

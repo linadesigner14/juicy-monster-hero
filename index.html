@@ -336,7 +336,7 @@ function groupScale(t){
 /* ===== pseudo-3D: the burger tilts toward the cursor, layers parallax at their own depth ===== */
 const B={gs:1,open:0,rx:0,ry:0};
 const bShadow=document.getElementById('bShadow');
-const tiltOK=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+const tiltOK=false;   // 3D tilt switched off: the burger stays still
 function tilt(){
   const now=performance.now()/1000;
   let tx=0,ty=0;
@@ -373,7 +373,7 @@ function render(t){
   B.gs=groupScale(t);
   B.open=(1-B.gs)/(1-EXPLODE_SCALE);                          // 0 = assembled, 1 = fully open
   for(let i=0;i<els.length;i++){
-    const z=i*2+B.open*i*34;                                  // each layer sits at its own depth → parallax
+    const z=0;
     els[i].style.transform=`translate3d(0,${layerY(i,t).toFixed(2)}px,${z.toFixed(1)}px)`;
   }
 

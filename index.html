@@ -76,7 +76,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 .headline .sw{display:none;position:absolute;left:0;bottom:-.06em;height:.07em;width:100%;background:var(--cheddar);transform-origin:0 50%;transform:scaleX(0);border-radius:2px}
 .headline em{position:relative;display:inline-block}
 .kicker::before{transform-origin:0 50%}
-.copy{margin:24px 0 0;max-width:360px;font:400 18px/1.55 var(--font);color:rgba(255,255,255,.66)}
+.copy{margin:24px 0 0;max-width:360px;text-wrap:pretty;font:400 18px/1.55 var(--font);color:rgba(255,255,255,.66)}
 .actions{margin-top:40px;display:flex;align-items:center;gap:28px}
 .cta{height:60px;padding:0 10px 0 28px;border-radius:30px;background:var(--cheddar);color:#0a0a0a;display:inline-flex;align-items:center;gap:18px;
   font:600 16px/1 var(--font);letter-spacing:.02em;text-decoration:none;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
@@ -125,16 +125,31 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 .intro{opacity:0}
 
 /* ---------- PORTRAIT STAGE (1080×1920) ---------- */
+/* ---------- PHONE (portrait stage: 1080 wide, height follows the screen, min 2200) ---------- */
 .port .navlink,.port .sep{display:none}
-.port .pill{left:420px;top:70px;width:470px;height:100px;border-radius:50px;font-size:34px}
-.port .ham{left:920px;top:70px;width:100px;height:100px;gap:11px}
-.port .ham span{width:44px;height:3px}
-.port #juicy{left:-10px;top:210px;width:1100px}
-.port #word{left:4px;top:990px;transform:scale(1.41);transform-origin:0 0}
-.port .lead{left:72px;top:1380px;width:900px;transform:scale(1.25);transform-origin:0 0}
-.port .scrim{display:none}
-.port .replay{left:auto;right:72px;top:1856px;font-size:20px}
-.port #eyes{left:-400px;top:660px}
+.port .pill{left:auto;right:216px;top:72px;width:auto;padding:0 52px;height:120px;border-radius:60px;font-size:36px;font-weight:500}
+.port .ham{left:auto;right:72px;top:72px;width:120px;height:120px;gap:12px}
+.port .ham span{width:48px;height:3px}
+.port #juicy{left:72px;top:236px;width:936px}
+.port #word{left:72px;top:1046px;transform:scale(1.2316);transform-origin:0 0}
+.port #eyes{left:-420px;top:690px}
+.port .scrim{display:block;left:0;top:auto;bottom:0;width:1080px;height:1100px;
+  background:linear-gradient(180deg,rgba(5,7,13,0) 0%,rgba(5,7,13,.72) 38%,rgba(5,7,13,.92) 100%)}
+.port .lead{left:72px;top:auto;bottom:104px;width:936px}
+.port .kicker{font-size:30px;gap:20px}
+.port .kicker::before{width:56px;height:4px}
+.port .headline{margin-top:32px;font-size:112px;letter-spacing:-.045em}
+.port .copy{margin-top:32px;max-width:860px;font-size:40px;line-height:1.5}
+.port .actions{margin-top:64px;width:100%;gap:48px}
+.port .cta{flex:1;height:156px;padding:0 16px 0 60px;border-radius:78px;font-size:44px;justify-content:space-between}
+.port .cta .arr{width:124px;height:124px}
+.port .cta .arr svg{width:48px;height:48px}
+.port .link{font-size:42px;padding:12px 0;border-bottom-width:2px}
+.port .facts{display:none;margin-top:72px;padding-top:44px;gap:96px;border-top-width:2px}
+.port .facts li{gap:14px}
+.port .facts b{font-size:56px}
+.port .facts span{font-size:28px}
+.port .replay{display:none}
 @media (prefers-reduced-motion: reduce){.cta,.pill,.ham{transition:none}}
 </style>
 </head>
@@ -486,16 +501,16 @@ function layout(){
   const vw=innerWidth, vh=innerHeight;
   portrait=vw/vh<.8;
   document.body.classList.toggle('port',portrait);
-  const W=portrait?1080:1920, H=portrait?1920:1080;
+  const W=portrait?1080:1920, H=portrait?Math.max(2280,Math.round(1080*vh/vw)):1080;
   const s=Math.min(vw/W,vh/H), ox=(vw-W*s)/2, oy=(vh-H*s)/2;
   stage.style.width=W+'px'; stage.style.height=H+'px';
   stage.style.transform=`translate(${ox}px,${oy}px) scale(${s})`;
-  const horizon=portrait?1000:770, D=oy+horizon*s;
+  const horizon=portrait?1080:770, D=oy+horizon*s;
   const c=Math.max(vw/1920, vh/1080, D/770, (vh-D)/310);
   bg.style.width=1920*c+'px'; bg.style.height=1080*c+'px';
   bg.style.left=(vw-1920*c)/2+'px'; bg.style.top=Math.min(0,D-770*c)+'px';
   let sceneS,sceneL,sceneT;
-  if(portrait){sceneS=1.0; sceneL=(1080-804*sceneS)/2; sceneT=1110-609*sceneS;}
+  if(portrait){sceneS=1.04; sceneL=(1080-804*sceneS)/2; sceneT=1170-609*sceneS;}
   else {sceneS=.9; sceneL=958-402*sceneS; sceneT=905-609*sceneS;}
   scene.style.transform=`translate(${sceneL}px,${sceneT}px) scale(${sceneS})`;
   SW=W; SH=H; ORX=sceneL+402*sceneS; ORY=sceneT+609*sceneS; BH=600*sceneS;

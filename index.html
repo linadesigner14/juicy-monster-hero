@@ -73,7 +73,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
 .headline em{font-style:normal;color:var(--cheddar)}
 .headline .w{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:top;padding:0 .02em .08em;margin:0 -.02em -.08em}
 .headline .c{display:inline-block;will-change:transform}
-.headline .sw{position:absolute;left:0;bottom:-.06em;height:.07em;width:100%;background:var(--cheddar);transform-origin:0 50%;transform:scaleX(0);border-radius:2px}
+.headline .sw{display:none;position:absolute;left:0;bottom:-.06em;height:.07em;width:100%;background:var(--cheddar);transform-origin:0 50%;transform:scaleX(0);border-radius:2px}
 .headline em{position:relative;display:inline-block}
 .kicker::before{transform-origin:0 50%}
 .copy{margin:24px 0 0;max-width:360px;font:400 18px/1.55 var(--font);color:rgba(255,255,255,.66)}
@@ -183,7 +183,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--cheddar);outline-of
   <div class="scrim" aria-hidden="true"></div>
   <div class="lead">
     <p class="kicker">Smash burgers</p>
-    <h1 class="headline">Monster&#8209;sized <em>flavor.</em></h1>
+    <h1 class="headline">Monster&#8209;sized <em>flavor</em></h1>
     <p class="copy">Double smashed patties and melted cheese, fresh off the grill and straight to your door.</p>
     <div class="actions">
       <a class="cta" href="#menu">Feed the monster<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span></a>
@@ -368,7 +368,6 @@ function render(t){
     const p=seg(t,st,hot?.75:.65), e=hot?back(p):eo(p);
     c.style.transform=`translateY(${(105*(1-e)).toFixed(2)}%) rotate(${(8*(1-eo(p))).toFixed(2)}deg)`;
   });
-  swipe.style.transform=`scaleX(${eo(seg(t,1.35,.55)).toFixed(3)})`;
 
   // burger
   B.gs=groupScale(t);
